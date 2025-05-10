@@ -7,6 +7,8 @@ from src.llmConfig.fallback_fix_generation import fix_manim_code
 from src.services.manim_service import create_manim_video
 from src.services.tts_service import generate_audio
 
+from src.CloudStorage.utils import CloudinaryStorage
+
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -16,7 +18,7 @@ logging.basicConfig(
 def main():
     video_data = None
     script = None
-    audio_file = None
+    max_retries = 2
     final_video = None
 
     # Get the idea from the user
@@ -40,7 +42,6 @@ def main():
         logging.error("Failed to generate audio file.")
         return
 
-    max_retries = 1
     current_manim_code = video_data["manim_code"]
     current_script = script
     current_audio_file = audi0_file
@@ -100,4 +101,27 @@ def main():
             break
 
 if __name__ == "__main__":
-    main()
+    try:
+        cloudinary_storage = CloudinaryStorage()
+        main()
+        logging.info("Script executed successfully.")
+        logging.error("Script execution failed.")
+        video_file = "final_output.mp4"
+        if os.path.isfile(video_file):
+            resposne = cloudinary_storage.upload_to_cloudinary(file_path=video_file)
+            logging.info(f"Video uploaded to Cloudinary: {resposne}")
+        else:
+            logging.warning(f"Could not find the file to upload: {video_file}")
+
+        logging.info("Script execution completed.")
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+    finally:
+        logging.info("Removing temporary files.")
+        if os.path.exists("output/video"):
+            os.remove("output/video")
+        # if os.path.exists("final_output.mp4"):
+        #     os.remove("final_output.mp4")
+        if os.path.exists("media"):
+            os.remove("media")
+        logging.info("Temporary files removed.")

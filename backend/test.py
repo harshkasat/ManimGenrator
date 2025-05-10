@@ -1,100 +1,68 @@
 from manim import *
 import numpy as np
 
-# Set custom config
 config.video_dir = "output/video"
+config.write_to_movie = True
+config.flush_cache = True
+config.disable_caching = True
 
-class GoldenRatio(Scene):
+class BinomialExpansion(Scene):
     def construct(self):
-        # Define colors
-        GOLDEN_YELLOW = "#FFC857"
-        PHI_COLOR = "#6495ED"
-        RECT_COLOR = "#A0522D"
-
         # Introduction
-        title = Tex("The Golden Ratio: \\(\\varphi\\)", color=GOLDEN_YELLOW).scale(1.5)
+        title = Text("Binomial Theorem", color=BLUE).scale(1.5)
         self.play(Write(title), run_time=2)
         self.wait(1)
         self.play(FadeOut(title), run_time=1)
 
-        # Define Golden Ratio value
-        phi = (1 + np.sqrt(5)) / 2
-        phi_tex = MathTex(
-            "\\varphi = \\frac{1 + \\sqrt{5}}{2} \\approx 1.618", color=PHI_COLOR
-        )
-        self.play(Write(phi_tex), run_time=2)
+        # Define the binomial expression
+        expression = MathTex(r"(a + b)^n", color=GREEN).scale(1.2)
+        self.play(Write(expression), run_time=2)
         self.wait(1)
 
-        # Create a square
-        square = Square(side_length=2, color=RECT_COLOR)
-        self.play(Create(square), run_time=1)
-        self.wait(0.5)
-
-        # Create a rectangle
-        rectangle = Rectangle(height=2, width=2 * phi, color=RECT_COLOR)
-        rectangle.move_to(square.get_center())  # Ensure it's centered.
-
-        # Transform to golden rectangle
-        self.play(Transform(square, rectangle), Write(MathTex("1")), run_time=2)
+        # Expand for n=2
+        expansion_n2 = MathTex(r"(a + b)^2 = a^2 + 2ab + b^2", color=YELLOW).scale(1.0)
+        expansion_n2.next_to(expression, DOWN, buff=0.5)
+        self.play(Write(expansion_n2), run_time=3)
         self.wait(1)
 
-        # Adding square to golden rectangle
-        square2 = Square(side_length=2, color=GOLDEN_YELLOW).move_to(
-            rectangle.get_center() + np.array([phi, 0, 0])
-        )
-        self.play(Create(square2))
+        # Expand for n=3
+        expansion_n3 = MathTex(r"(a + b)^3 = a^3 + 3a^2b + 3ab^2 + b^3", color=RED).scale(1.0)
+        expansion_n3.next_to(expansion_n2, DOWN, buff=0.5)
+        self.play(Write(expansion_n3), run_time=4)
+        self.wait(1)
 
-        # Illustrating subdivision
-        line = Line(start=np.array([phi, -1, 0]), end=np.array([phi, 1, 0])).move_to(
-            rectangle.get_center() + np.array([phi, 0, 0])
-        )
-        self.play(Create(line))
-
-        text1 = MathTex("1").move_to(np.array([1, -2, 0]))
-        text2 = MathTex("\\varphi - 1").move_to(np.array([3.1, -2, 0]))
-        self.play(Write(text1))
-        self.play(Write(text2))
+        # General formula
+        general_formula = MathTex(r"(a + b)^n = \sum_{k=0}^{n} \binom{n}{k} a^{n-k} b^k", color=PURPLE).scale(1.2)
+        general_formula.next_to(expansion_n3, DOWN, buff=0.5)
+        self.play(Write(general_formula), run_time=5)
         self.wait(2)
 
-        # Fibonacci sequence visualization
+        # Explanation of binomial coefficient
+        binomial_coeff = MathTex(r"\binom{n}{k} = \frac{n!}{k!(n-k)!}", color=ORANGE).scale(1.0)
+        binomial_coeff.next_to(general_formula, DOWN, buff=0.5)
+        self.play(Write(binomial_coeff), run_time=4)
+        self.wait(2)
+
+        # Example with numbers
+        example = MathTex(r"(1 + x)^4 = 1 + 4x + 6x^2 + 4x^3 + x^4", color=TEAL).scale(1.0)
+        example.next_to(binomial_coeff, DOWN, buff=0.5)
+        self.play(Write(example), run_time=4)
+        self.wait(2)
+
+        # Cleanup
         self.play(
-            FadeOut(phi_tex, text1, text2, line), square2.animate.fade(0.2), run_time=1
-        )
-        square_list = []
-        square_list.append(
-            Square(side_length=2, color=GOLDEN_YELLOW).move_to(np.array([0, 0, 0]))
-        )
-        square_list.append(
-            Square(side_length=2, color=GOLDEN_YELLOW).next_to(
-                square_list[0], LEFT, buff=0
-            )
-        )
-        square_list.append(
-            Square(side_length=4, color=GOLDEN_YELLOW).next_to(
-                square_list[0], UP, buff=0
-            )
-        )
-        square_list.append(
-            Square(side_length=6, color=GOLDEN_YELLOW).next_to(
-                square_list[1], UP, buff=0
-            )
-        )
-        square_list.append(
-            Square(side_length=10, color=GOLDEN_YELLOW).next_to(
-                square_list[3], LEFT, buff=0
-            )
-        )
-        square_list.append(
-            Square(side_length=16, color=GOLDEN_YELLOW).next_to(
-                square_list[4], DOWN, buff=0
-            )
+            FadeOut(expression),
+            FadeOut(expansion_n2),
+            FadeOut(expansion_n3),
+            FadeOut(general_formula),
+            FadeOut(binomial_coeff),
+            FadeOut(example),
+            run_time=2
         )
 
-        self.play(Create(square_list[1]), Create(square_list[2]), run_time=1)
-        self.play(Create(square_list[3]), Create(square_list[4]), run_time=1)
-        self.play(Create(square_list[5]), run_time=1)
-
-        # Final fade out
+        # Conclusion
+        conclusion = Text("Binomial Theorem: Expanding Powers!", color=BLUE).scale(1.5)
+        self.play(Write(conclusion), run_time=2)
         self.wait(1)
-        self.play(*[FadeOut(obj) for obj in self.mobjects], run_time=2)
+        self.play(FadeOut(conclusion), run_time=1)
         self.wait(1)

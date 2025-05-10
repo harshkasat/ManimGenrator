@@ -123,8 +123,24 @@ def create_manim_video(video_data, manim_code, audio_file=None):
         subprocess.run(merge_cmd, check=True)
         output_video = final_output
 
-        if os.path.exists("extended_video.mp4"):
+        # 🔥 Crop to 9:16 portrait aspect ratio (mobile view)
+        portrait_video = "portrait_output.mp4"
+        crop_cmd = [
+            "ffmpeg",
+            "-y",
+            "-i", output_video,
+            "-filter:v", "crop=ih*9/16:ih",
+            "-c:a", "copy",
+            portrait_video
+        ]
+        logging.info(f"Cropping to 9:16 with command: {' '.join(crop_cmd)}")
+        subprocess.run(crop_cmd, check=True)
+        output_video = portrait_video
+
+        if os.path.exists("extended_video.mp4") and os.path.exists("final_output.mp4"):
+            logging.info("Removing temporary files")
             os.remove("extended_video.mp4")
+            os.remove("final_output.mp4")
             logging.info("Removed temporary extended video file")
 
     if os.path.exists("generated_video.py"):

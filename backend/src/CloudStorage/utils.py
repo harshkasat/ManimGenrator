@@ -30,8 +30,7 @@ class CloudinaryStorage:
                                         overwrite=False,
                                         resource_type = "raw")
 
-            return upload_result["secure_url"], upload_result["public_id"], \
-                upload_result['display_name']
+            return upload_result["secure_url"]
         except Exception as e:
             print(f"Error uploading file: {e}")
             return None

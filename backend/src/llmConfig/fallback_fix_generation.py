@@ -41,7 +41,7 @@ def fix_manim_code(faulty_code: str, error_message: str, original_context: str):
         )
         
         response = client.models.generate_content(
-                model="gemini-2.0-flash",
+                model="gemini-2.0-flash-001",
                 contents=contents,
                 config=generation_config
                 )

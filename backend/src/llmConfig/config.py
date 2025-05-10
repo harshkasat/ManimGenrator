@@ -46,7 +46,7 @@ class LLMConfig:
 
         try:
             response = client.models.generate_content(
-                model="gemini-2.0-flash", contents=idea, config=generate_config
+                model="gemini-2.0-flash-001", contents=idea, config=generate_config
             )
             logging.info("Content generated successfully.")
         except Exception as e:
