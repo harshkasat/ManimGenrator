@@ -27,7 +27,6 @@ def generate_video(idea: str | None = None):
         contents.append(user_prompt_text)
 
     response = LLMConfig().generate_video(idea=user_prompt_text)
-    print(response.text)
 
     if response:
         try:

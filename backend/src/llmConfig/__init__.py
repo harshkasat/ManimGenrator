@@ -58,6 +58,7 @@ BASE_PROMPT_INSTRUCTIONS = (
     "\n### MANIM CODE:\n"
     "Provide only valid Python code using Manim Community v0.19.0 to generate the video animation.\n\n"
     "### NARRATION:\n"
+    """DONT USE ANY PUNCTUATION like symbols = [",", ".", "/", "?", "'", '"'] """
     "Provide a concise narration script for the video that aligns with the Manim code's pacing and visuals.DO NOT give timestamps.\n\n"
 )
 

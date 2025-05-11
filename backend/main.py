@@ -6,7 +6,7 @@ from src.services.generate_service import generate_video
 from src.llmConfig.fallback_fix_generation import fix_manim_code
 from src.services.manim_service import create_manim_video
 from src.services.tts_service import generate_audio
-
+import shutil
 from src.CloudStorage.utils import CloudinaryStorage
 
 
@@ -34,17 +34,17 @@ def main():
     if not script:
         logging.error("Failed to generate script.")
         return
-
     # Generate the audio script
-    audi0_file = generate_audio(script)
+    audio_file = generate_audio(text=script)
+    print("Current audio file:", audio_file)
 
-    if not audi0_file:
+    if not audio_file:
         logging.error("Failed to generate audio file.")
         return
 
     current_manim_code = video_data["manim_code"]
     current_script = script
-    current_audio_file = audi0_file
+    current_audio_file = audio_file
 
     for attempt in range(max_retries + 1):
         try:
@@ -55,6 +55,7 @@ def main():
                 audio_file=current_audio_file,
             )
             logging.info("Manim video creation successful.")
+            return final_video
             break
         except subprocess.CalledProcessError as e:
             logging.error(f"Manim execution failed on attempt {attempt + 1}.")
@@ -103,10 +104,9 @@ def main():
 if __name__ == "__main__":
     try:
         cloudinary_storage = CloudinaryStorage()
-        main()
+        video_file = main()
         logging.info("Script executed successfully.")
         logging.error("Script execution failed.")
-        video_file = "final_output.mp4"
         if os.path.isfile(video_file):
             resposne = cloudinary_storage.upload_to_cloudinary(file_path=video_file)
             logging.info(f"Video uploaded to Cloudinary: {resposne}")
@@ -119,9 +119,16 @@ if __name__ == "__main__":
     finally:
         logging.info("Removing temporary files.")
         if os.path.exists("output/video"):
-            os.remove("output/video")
-        # if os.path.exists("final_output.mp4"):
-        #     os.remove("final_output.mp4")
+            for filename in os.listdir("output/video"):
+                file_path = os.path.join("output/video", filename)
+                try:
+                    if os.path.isfile(file_path):
+                        os.remove(file_path)
+                    elif os.path.isdir(file_path):
+                        shutil.rmtree(file_path)
+                except Exception as e:
+                    logging.error(f"Failed to delete {file_path}. Reason: {e}")
+        #     shutil.rmtree("output/video")
         if os.path.exists("media"):
-            os.remove("media")
+            shutil.rmtree("media")
         logging.info("Temporary files removed.")

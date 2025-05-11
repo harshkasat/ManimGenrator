@@ -1,0 +1,60 @@
+1
+00:00:00,350 --> 00:00:02,799
+` ` ` Welcome to Symmetry and Shapes
+
+2
+00:00:03,349 --> 00:00:04,574
+! Let's start with a square
+
+3
+00:00:04,712 --> 00:00:06,375
+. Notice its perfect symmetry
+
+4
+00:00:06,925 --> 00:00:08,737
+. Here are its lines of symmetry :
+
+5
+00:00:08,737 --> 00:00:11,449
+vertical , horizontal , and both diagonals
+
+6
+00:00:12,024 --> 00:00:13,949
+. Now , an equilateral triangle
+
+7
+00:00:14,049 --> 00:00:15,974
+. It also has lines of symmetry
+
+8
+00:00:16,524 --> 00:00:18,887
+. These lines run from each vertex to
+
+9
+00:00:18,887 --> 00:00:20,725
+the midpoint of the opposite side
+
+10
+00:00:21,275 --> 00:00:22,625
+. Finally , a circle
+
+11
+00:00:22,762 --> 00:00:25,125
+. A circle has infinite lines of symmetry
+
+12
+00:00:25,675 --> 00:00:27,825
+. Watch this line rotate , showing just
+
+13
+00:00:27,825 --> 00:00:29,650
+some of the infinite possibilities
+
+14
+00:00:30,225 --> 00:00:31,600
+. Symmetry is everywhere
+
+15
+00:00:32,225 --> 00:00:32,425
+! ` ` `
+
