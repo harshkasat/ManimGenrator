@@ -106,7 +106,6 @@ if __name__ == "__main__":
         cloudinary_storage = CloudinaryStorage()
         video_file = main()
         logging.info("Script executed successfully.")
-        logging.error("Script execution failed.")
         if os.path.isfile(video_file):
             resposne = cloudinary_storage.upload_to_cloudinary(file_path=video_file)
             logging.info(f"Video uploaded to Cloudinary: {resposne}")

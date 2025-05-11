@@ -87,7 +87,7 @@ def create_manim_video(video_data, manim_code, audio_file=None):
                     "-f",
                     "lavfi",
                     "-i",
-                    "color=black:s=1920x1080:r=60",
+                    "color=black:s=1080x1920:r=60",
                     "-filter_complex",
                     f"[0:v][1:v]concat=n=2:v=1:a=0[outv]",
                     "-map",
