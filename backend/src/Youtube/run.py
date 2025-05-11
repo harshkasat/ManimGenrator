@@ -34,22 +34,20 @@ def authenticate_youtube():
     return googleapiclient.discovery.build("youtube", "v3", credentials=creds)
 
 
-def upload_video(youtube):
+def upload_video(youtube, metadata, media_file):
     request_body = {
         "snippet": {
             "categoryId": "22",
-            "title": "Uploaded from Python",
-            "description": "This is the most awsome description ever",
-            "tags": ["test", "python", "api"],
+            "title": metadata['title'],
+            "description": metadata['description'],
+            "tags": metadata['tags'],
         },
         "status": {
-            "privacyStatus": "public",
+            "privacyStatus": "private",
+            # "privacyStatus": "public",
             "madeForKids": False    
         },
     }
-
-    # put the path of the video that you want to upload
-    media_file = "output/final_video/portrait_output.mp4"
 
     request = youtube.videos().insert(
         part="snippet,status",
@@ -68,7 +66,12 @@ def upload_video(youtube):
 
         print(f"Video uploaded with ID: {response['id']}")
 
+def push_youtube_video(metadata:dict, media_file:str):
+    youtube_auth = authenticate_youtube()
+    upload_video(youtube=youtube_auth,
+                metadata=metadata,
+                media_file=media_file)
 
-if __name__ == "__main__":
-    youtube = authenticate_youtube()
-    upload_video(youtube)
+
+# if __name__ == "__main__":
+#     push_youtube_video(metadata={})

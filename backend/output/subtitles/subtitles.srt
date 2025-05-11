@@ -1,40 +1,16 @@
 1
-00:00:00,300 --> 00:00:03,075
-Let's explore the fascinating world of patterns in
+00:00:00,300 --> 00:00:04,424
+Imagine flattening a sphere This process inevitably introduces
 
 2
-00:00:03,075 --> 00:00:06,912
-multiplication We can easily see patterns by looking
+00:00:04,424 --> 00:00:08,837
+distortions Observe how the surface area stretches Just
 
 3
-00:00:06,912 --> 00:00:10,225
-at a multiplication table Notice how the multiples
+00:00:08,837 --> 00:00:12,749
+like in map projections Distortions are unavoidable when
 
 4
-00:00:10,225 --> 00:00:13,700
-of three form a distinct pattern Anything multiplied
-
-5
-00:00:13,700 --> 00:00:17,699
-by zero always results in zero Multiplying any
-
-6
-00:00:17,699 --> 00:00:20,149
-number by one results in the same number
-
-7
-00:00:20,699 --> 00:00:23,562
-Multiplying by ten simply adds a zero to
-
-8
-00:00:23,562 --> 00:00:26,262
-the end of the number Squaring a number
-
-9
-00:00:26,262 --> 00:00:30,024
-means multiplying the number by itself Recognizing these
-
-10
-00:00:30,024 --> 00:00:32,974
-patterns makes multiplication much easier
+00:00:12,749 --> 00:00:15,174
+representing a sphere on a flat surface
 

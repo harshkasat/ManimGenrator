@@ -25,16 +25,14 @@ class LLMConfig:
                 "Gemini API key not found. Please set "
                 "the GENAI_API_KEY environment variable."
             )
+        self.client = genai.Client(api_key=self.gemini_api_key)
+        logging.info("Gemini client initialized.")
 
     def generate_video(self, idea: str | None = None):
         generate_config = ""
         """
         Generate a video using the provided idea and the Manim guide.
         """
-
-        client = genai.Client(api_key=self.gemini_api_key)
-        logging.info("Gemini client initialized.")
-
         try:
             generate_config = genai_types.GenerateContentConfig(
                 safety_settings=SAFE_SETTINGS, system_instruction=SYSTEM_PROMPT
@@ -45,7 +43,7 @@ class LLMConfig:
             return None
 
         try:
-            response = client.models.generate_content(
+            response = self.client.models.generate_content(
                 model="gemini-2.0-flash-001", contents=idea, config=generate_config
             )
             logging.info("Content generated successfully.")
@@ -55,3 +53,13 @@ class LLMConfig:
 
         return response
 
+    def general_content(self, idea:str):
+        try:
+            response = self.client.models.generate_content(
+                model="gemini-2.0-flash-001", contents=idea
+            )
+            logging.info("Content generated successfully.")
+        except Exception as e:
+            logging.error(f"Failed to generate content: {e}")
+            return None
+        return response

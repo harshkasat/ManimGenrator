@@ -15,14 +15,11 @@ logging.basicConfig(
 )
 
 
-def main():
+def main(idea:str):
     video_data = None
     script = None
     max_retries = 2
     final_video = None
-
-    # Get the idea from the user
-    idea = input("Enter your idea: ")
 
     # Generate video using the idea
     video_data, script = generate_video(idea)
@@ -101,10 +98,10 @@ def main():
             final_video = None
             break
 
-if __name__ == "__main__":
+def _create_manim_video(video_idea):
     try:
         cloudinary_storage = CloudinaryStorage()
-        video_file = main()
+        video_file = main(idea=video_idea)
         logging.info("Script executed successfully.")
         if os.path.isfile(video_file):
             resposne = cloudinary_storage.upload_to_cloudinary(file_path=video_file)
@@ -113,8 +110,11 @@ if __name__ == "__main__":
             logging.warning(f"Could not find the file to upload: {video_file}")
 
         logging.info("Script execution completed.")
+
+        return video_file
     except Exception as e:
         logging.error(f"An error occurred: {e}")
+        return None
     finally:
         logging.info("Removing temporary files.")
         if os.path.exists("output/video"):
