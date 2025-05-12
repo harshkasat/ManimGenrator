@@ -7,13 +7,16 @@ Give me one original video idea that:
 2. Can be explained visually using Manim,
 3. Has an intuitive "aha" insight,
 4. Is beginner-friendly but mind-expanding.
-The idea should be described in 2–3 sentences, enough for me to storyboard and animate it."""
+The idea should be described in 2–3 sentences, enough for me to storyboard and animate it.
+** IMPORTANT **
+AVOID THIS IDEAS: {avoid_ideas}"""
 
 
-def generate_video_idea():
+def generate_video_idea(avoid_this_ideas):
     try:
         llm = LLMConfig()
-        resposne = llm.general_content(idea=PROMPT)
+        prompt = PROMPT.format(avoid_ideas=avoid_this_ideas)
+        resposne = llm.general_content(idea=prompt)
         logging.info("YOUTUBE idea is created")
         return resposne.text
     except Exception as e:

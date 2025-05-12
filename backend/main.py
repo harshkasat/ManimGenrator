@@ -111,7 +111,7 @@ def _create_manim_video(video_idea):
 
         logging.info("Script execution completed.")
 
-        return video_file
+        return resposne
     except Exception as e:
         logging.error(f"An error occurred: {e}")
         return None

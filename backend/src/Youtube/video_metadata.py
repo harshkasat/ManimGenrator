@@ -15,7 +15,7 @@ THE response must like this:
 {{
     "title" : "Title for YOUTUBE VIDEO",
     "description" : "Description for YOUTUBE VIDEO",
-    "tags": ["LISTS of Tags for YOUTUBE VIDEO"]
+    "tags": "Tags for YOUTUBE VIDEO"
 }}"""
 
 
@@ -36,7 +36,7 @@ def extract_clean_json(raw_text):
 
 def validate_youtube_response(response: dict) -> bool:
     try:
-        required_keys = {"title": str, "description": str, "tags": list}
+        required_keys = {"title": str, "description": str, "tags": str}
 
         if not isinstance(response, dict):
             print("Response is not a dictionary.")

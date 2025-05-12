@@ -1,16 +1,28 @@
 1
-00:00:00,300 --> 00:00:04,424
-Imagine flattening a sphere This process inevitably introduces
+00:00:00,275 --> 00:00:02,450
+We begin with a grid of numbers starting
 
 2
-00:00:04,424 --> 00:00:08,837
-distortions Observe how the surface area stretches Just
+00:00:02,450 --> 00:00:05,599
+from 2 Now circles will grow to eliminate
 
 3
-00:00:08,837 --> 00:00:12,749
-like in map projections Distortions are unavoidable when
+00:00:05,599 --> 00:00:08,875
+multiples of each prime number Watch as the
 
 4
-00:00:12,749 --> 00:00:15,174
-representing a sphere on a flat surface
+00:00:08,875 --> 00:00:11,525
+multiples are crossed out one by one The
+
+5
+00:00:11,525 --> 00:00:14,200
+remaining numbers are the prime numbers less than
+
+6
+00:00:14,200 --> 00:00:17,262
+100 These are the prime numbers revealed by
+
+7
+00:00:17,262 --> 00:00:18,000
+the sieve
 
