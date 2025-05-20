@@ -15,7 +15,7 @@ logging.basicConfig(
 )
 
 
-def main(idea:str):
+def main(idea: str) -> str:
     video_data = None
     script = None
     max_retries = 2
@@ -98,13 +98,17 @@ def main(idea:str):
             final_video = None
             break
 
-def _create_manim_video(video_idea):
+
+def _create_manim_video(video_idea: str):
     try:
+        logging.info(f"Video idea: {video_idea}")
         cloudinary_storage = CloudinaryStorage()
         video_file = main(idea=video_idea)
         logging.info("Script executed successfully.")
         if os.path.isfile(video_file):
-            resposne = cloudinary_storage.upload_to_cloudinary(file_path=video_file)
+            resposne = cloudinary_storage.upload_to_cloudinary(
+                file_path=video_file, project_name=video_idea.strip()[:21]
+            )
             logging.info(f"Video uploaded to Cloudinary: {resposne}")
         else:
             logging.warning(f"Could not find the file to upload: {video_file}")

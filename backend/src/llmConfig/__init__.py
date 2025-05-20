@@ -31,7 +31,7 @@ BASE_PROMPT_INSTRUCTIONS = (
         config.pixel_height = 1920
         config.frame_width = 9
         config.frame_height = 16 This part is important to set the video directory to output/video"""
-    "\n4. Use only verified Manim methods:" 
+    "\n4. Use only verified Manim methods:"
     "\n   - self.play(), self.wait(), Create(), Write(), Transform(), FadeIn(), FadeOut(), Add(), Remove(), MoveAlongPath(), Rotating(), Circumscribe(), Indicate(), FocusOn(), Shift(), Scale(), MoveTo(), NextTo(), Axes(), Plot(), LineGraph(), BarChart(), Dot(), Line(), Arrow(), Text(), Tex(), MathTex(), VGroup(), Mobject.animate, self.camera.frame.animate"
     "\n5. DO NOT USE IMAGES IMPORTS."
     "\n6. Make the video crazy and innovative by:"

@@ -65,6 +65,7 @@ class VectorTransform(Scene):
 # ### NARRATION:
 We start with vector v in yellow on the coordinate plane. This is the rotation matrix M we'll use. Now, we apply the matrix M to rotate vector v by 90 degrees, resulting in the green vector Mv.
 ```
+
 ## Example 3: BraceAnnotation
 
 **Description:** Shows how to create braces and attach text/latex to them.
@@ -83,7 +84,7 @@ class BraceAnnotation(Scene):
         b1text = b1.get_text("Horizontal distance")
         b2 = Brace(line, direction=line.copy().rotate(PI / 2).get_unit_vector())
         b2text = b2.get_tex("x-x_1")
-        
+
         self.play(Create(line), Create(dot), Create(dot2), run_time=3)
         self.play(Create(b1), Write(b1text), run_time=3)
         self.play(Create(b2), Write(b2text), run_time=3)
@@ -209,7 +210,7 @@ class ThreeDSurfacePlot(ThreeDScene):
         gauss_plane.set_style(fill_opacity=1, stroke_color=GREEN)
         gauss_plane.set_fill_by_checkerboard(ORANGE, BLUE, opacity=0.5)
         axes = ThreeDAxes()
-        
+
         self.play(Create(axes), run_time=2)
         self.play(Create(gauss_plane), run_time=3)
         self.begin_ambient_camera_rotation(rate=0.1)
@@ -321,7 +322,7 @@ class GraphAreaPlot(Scene):
         self.play(Create(ax), Write(labels), run_time=3)
         self.play(Create(curve_1), Create(curve_2), run_time=4)
         self.play(Create(line_1), Create(line_2), run_time=3)
-        self.play(FadeIn(riemann_area), run_time=3) 
+        self.play(FadeIn(riemann_area), run_time=3)
         self.play(FadeIn(area), run_time=3)
         self.wait(14) # Fill remaining time
 ```
@@ -335,292 +336,318 @@ Example 9: Camera Movement
 Description: Demonstrates how to move and zoom the camera to focus on specific objects.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class CameraMovement(Scene):
-    def construct(self):
-        square = Square().shift(LEFT)
-        circle = Circle().shift(RIGHT)
-        self.add(square, circle)
-        self.play(self.camera.frame.animate.move_to(square), run_time=2)
-        self.wait(1)
-        self.play(self.camera.frame.animate.move_to(circle), run_time=2)
-        self.wait(1)
-        self.play(self.camera.frame.animate.scale(0.5), run_time=2)
-        self.wait(1)
-        self.play(self.camera.frame.animate.scale(2), run_time=2)
-        self.wait(1)
+def construct(self):
+square = Square().shift(LEFT)
+circle = Circle().shift(RIGHT)
+self.add(square, circle)
+self.play(self.camera.frame.animate.move_to(square), run_time=2)
+self.wait(1)
+self.play(self.camera.frame.animate.move_to(circle), run_time=2)
+self.wait(1)
+self.play(self.camera.frame.animate.scale(0.5), run_time=2)
+self.wait(1)
+self.play(self.camera.frame.animate.scale(2), run_time=2)
+self.wait(1)
 
 # ### NARRATION:
-Here, we have a square and a circle. We move the camera to focus on the square, then shift to the circle. Next, we zoom in to get a closer look, and finally zoom out to see the entire scene again.
 
+Here, we have a square and a circle. We move the camera to focus on the square, then shift to the circle. Next, we zoom in to get a closer look, and finally zoom out to see the entire scene again.
 
 Example 10: BackgroundRectangle Usage
 Description: Shows how to add a background rectangle to text for better visibility.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class BackgroundRectangleExample(Scene):
-    def construct(self):
-        text = Text("Important Note", font_size=48)
-        bg_rect = BackgroundRectangle(text, fill_opacity=0.5, buff=0.1)
-        self.add(bg_rect, text)
-        self.wait(2)
+def construct(self):
+text = Text("Important Note", font_size=48)
+bg_rect = BackgroundRectangle(text, fill_opacity=0.5, buff=0.1)
+self.add(bg_rect, text)
+self.wait(2)
 
 # ### NARRATION:
+
 In this example, we add a semi-transparent background rectangle behind the text "Important Note" to make it stand out against the background.
 
 Example 11: ValueTracker and always_redraw
 Description: Demonstrates dynamic updates using ValueTracker and always_redraw.
+
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class ValueTrackerExample(Scene):
-    def construct(self):
-        tracker = ValueTracker(0)
-        number = always_redraw(lambda: DecimalNumber(tracker.get_value()).to_edge(UP))
-        self.add(number)
-        self.play(tracker.animate.set_value(100), run_time=5)
-        self.wait(1)
+def construct(self):
+tracker = ValueTracker(0)
+number = always_redraw(lambda: DecimalNumber(tracker.get_value()).to_edge(UP))
+self.add(number)
+self.play(tracker.animate.set_value(100), run_time=5)
+self.wait(1)
 
 # ### NARRATION:
+
 We use a ValueTracker to animate a number from 0 to 100. The DecimalNumber updates in real-time as the tracker changes.
 
 Example 12: Custom Mobject
 Description: Creates a custom mobject by subclassing Mobject.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class CustomShape(VGroup):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        circle = Circle()
-        square = Square().shift(RIGHT)
-        self.add(circle, square)
+def **init**(self, **kwargs):
+super().**init**(**kwargs)
+circle = Circle()
+square = Square().shift(RIGHT)
+self.add(circle, square)
 
 class CustomMobjectExample(Scene):
-    def construct(self):
-        shape = CustomShape()
-        self.add(shape)
-        self.play(shape.animate.shift(UP))
-        self.wait(1)
+def construct(self):
+shape = CustomShape()
+self.add(shape)
+self.play(shape.animate.shift(UP))
+self.wait(1)
 
 # ### NARRATION:
-We define a custom shape by combining a circle and a square. Then, we animate the entire shape moving upward.
 
+We define a custom shape by combining a circle and a square. Then, we animate the entire shape moving upward.
 
 Example 13: Using Updaters
 Description: Shows how to use updaters for dynamic behavior.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class UpdaterExample(Scene):
-    def construct(self):
-        dot = Dot()
-        self.add(dot)
-        def updater(mob, dt):
-            mob.shift(RIGHT * dt)
-        dot.add_updater(updater)
-        self.wait(2)
-        dot.remove_updater(updater)
-        self.wait(1)
+def construct(self):
+dot = Dot()
+self.add(dot)
+def updater(mob, dt):
+mob.shift(RIGHT \* dt)
+dot.add_updater(updater)
+self.wait(2)
+dot.remove_updater(updater)
+self.wait(1)
 
 # ### NARRATION:
-Here, we add an updater to a dot, causing it to move to the right over time. After 2 seconds, we remove the updater to stop the movement.
 
+Here, we add an updater to a dot, causing it to move to the right over time. After 2 seconds, we remove the updater to stop the movement.
 
 Example 14: Text and MathTex Animation Sync
 Description: Animates Text and MathTex objects together.
+
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class TextMathTexExample(Scene):
-    def construct(self):
-        text = Text("Euler's Identity:")
-        formula = MathTex("e^{i\\pi} + 1 = 0")
-        group = VGroup(text, formula).arrange(DOWN)
-        self.play(Write(group))
-        self.wait(2)
+def construct(self):
+text = Text("Euler's Identity:")
+formula = MathTex("e^{i\\pi} + 1 = 0")
+group = VGroup(text, formula).arrange(DOWN)
+self.play(Write(group))
+self.wait(2)
 
 # ### NARRATION:
+
 We display Euler's Identity by combining a text label with the corresponding mathematical formula, animating them together.
 
 Example 15: Lagged Start Animations
 Description: Demonstrates staggered animations using LaggedStart.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class LaggedStartExample(Scene):
-    def construct(self):
-        squares = VGroup(*[Square() for _ in range(5)]).arrange(RIGHT)
-        self.play(LaggedStart(*[FadeIn(sq) for sq in squares], lag_ratio=0.5))
-        self.wait(1)
+def construct(self):
+squares = VGroup(_[Square() for _ in range(5)]).arrange(RIGHT)
+self.play(LaggedStart(_[FadeIn(sq) for sq in squares], lag_ratio=0.5))
+self.wait(1)
 
 # ### NARRATION:
+
 We create five squares and fade them in one after another with a delay, creating a cascading effect.
 
 Example 16: SVG and Image Support
 Description: Imports and displays an SVG image.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class SVGImageExample(Scene):
-    def construct(self):
-        svg = SVGMobject("example.svg").scale(2)
-        self.play(FadeIn(svg))
-        self.wait(2)
+def construct(self):
+svg = SVGMobject("example.svg").scale(2)
+self.play(FadeIn(svg))
+self.wait(2)
 
 # ### NARRATION:
-We load an SVG file named "example.svg" and display it in the scene, scaling it up for better visibility.
 
+We load an SVG file named "example.svg" and display it in the scene, scaling it up for better visibility.
 
 Example 17: Animated Arrows
 Description: Shows how to animate an arrow between two moving dots.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class ArrowAnimation(Scene):
-    def construct(self):
-        dot1 = Dot(LEFT * 2)
-        dot2 = Dot(RIGHT * 2)
-        arrow = always_redraw(lambda: Arrow(dot1.get_center(), dot2.get_center()))
-        self.add(dot1, dot2, arrow)
-        self.play(dot1.animate.shift(RIGHT * 2), dot2.animate.shift(LEFT * 2))
-        self.wait(1)
+def construct(self):
+dot1 = Dot(LEFT _ 2)
+dot2 = Dot(RIGHT _ 2)
+arrow = always_redraw(lambda: Arrow(dot1.get_center(), dot2.get_center()))
+self.add(dot1, dot2, arrow)
+self.play(dot1.animate.shift(RIGHT _ 2), dot2.animate.shift(LEFT _ 2))
+self.wait(1)
 
 # ### NARRATION:
+
 We have two dots and an arrow pointing from the first to the second. As the dots move, the arrow updates in real-time to stay between them.
 
 Example 18: Graph Plotting
 Description: Plots a mathematical function on axes.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class GraphExample(Scene):
-    def construct(self):
-        ax = Axes(x_range=[-3, 3], y_range=[-1, 9])
-        graph = ax.plot(lambda x: x**2, color=BLUE)
-        self.play(Create(ax), Create(graph))
-        self.wait(1)
+def construct(self):
+ax = Axes(x_range=[-3, 3], y_range=[-1, 9])
+graph = ax.plot(lambda x: x\*\*2, color=BLUE)
+self.play(Create(ax), Create(graph))
+self.wait(1)
 
 # ### NARRATION:
+
 This graph plots the function y = x squared using Axes and plot. The graph is colored blue.
 
 Example 19: Parametric Functions
 Description: Draws a circle using a parametric function.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class ParametricCircle(Scene):
-    def construct(self):
-        ax = Axes()
-        circle = ax.plot_parametric_curve(
-            lambda t: [np.cos(t), np.sin(t), 0],
-            t_range=[0, TAU],
-            color=YELLOW
-        )
-        self.play(Create(ax), Create(circle))
-        self.wait(1)
+def construct(self):
+ax = Axes()
+circle = ax.plot_parametric_curve(
+lambda t: [np.cos(t), np.sin(t), 0],
+t_range=[0, TAU],
+color=YELLOW
+)
+self.play(Create(ax), Create(circle))
+self.wait(1)
 
 # ### NARRATION:
+
 We use a parametric function to draw a circle. X is cosine of t and Y is sine of t. This forms a smooth circular path.
 
 Example 20: Brace and Label
 Description: Adds a brace and label to highlight part of an object.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class BraceExample(Scene):
-    def construct(self):
-        rect = Rectangle(width=4, height=2)
-        brace = Brace(rect, direction=DOWN)
-        label = brace.get_text("Width")
-        self.add(rect, brace, label)
-        self.wait(1)
+def construct(self):
+rect = Rectangle(width=4, height=2)
+brace = Brace(rect, direction=DOWN)
+label = brace.get_text("Width")
+self.add(rect, brace, label)
+self.wait(1)
 
 # ### NARRATION:
+
 A rectangle is shown, and we use a brace below it with a label that says "Width" to show dimension visually.
 
 Example 21: Coordinates and Points
 Description: Marks a coordinate point on a grid with a label.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class CoordinateLabel(Scene):
-    def construct(self):
-        ax = Axes()
-        dot = Dot(ax.coords_to_point(2, 3), color=RED)
-        label = MathTex("(2,3)").next_to(dot, UR)
-        self.play(Create(ax), FadeIn(dot), Write(label))
-        self.wait(1)
+def construct(self):
+ax = Axes()
+dot = Dot(ax.coords_to_point(2, 3), color=RED)
+label = MathTex("(2,3)").next_to(dot, UR)
+self.play(Create(ax), FadeIn(dot), Write(label))
+self.wait(1)
 
 # ### NARRATION:
-We place a red dot at coordinate (2, 3) on a graph and label it with the matching text.
 
+We place a red dot at coordinate (2, 3) on a graph and label it with the matching text.
 
 Example 22: Dashed Lines
 Description: Adds a dashed line from a point to the axes.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class DashedLineExample(Scene):
-    def construct(self):
-        ax = Axes()
-        point = ax.coords_to_point(2, 3)
-        dashed = DashedLine(point, ax.c2p(2, 0))
-        self.add(ax, Dot(point), dashed)
-        self.wait(1)
-
+def construct(self):
+ax = Axes()
+point = ax.coords_to_point(2, 3)
+dashed = DashedLine(point, ax.c2p(2, 0))
+self.add(ax, Dot(point), dashed)
+self.wait(1)
 
 # ### NARRATION:
-We drop a dashed line from the point (2, 3) straight down to the x-axis, like showing projections in math.
 
+We drop a dashed line from the point (2, 3) straight down to the x-axis, like showing projections in math.
 
 Example 23: Multiple Scenes in a File
 Description: Demonstrates how to create multiple scenes in the same script.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class FirstScene(Scene):
-    def construct(self):
-        self.play(Write(Text("Scene One")))
-        self.wait(1)
+def construct(self):
+self.play(Write(Text("Scene One")))
+self.wait(1)
 
 class SecondScene(Scene):
-    def construct(self):
-        self.play(Write(Text("Scene Two")))
-        self.wait(1)
+def construct(self):
+self.play(Write(Text("Scene Two")))
+self.wait(1)
 
 # ### NARRATION:
-This file has two different scenes. Manim will render each separately when called, allowing you to keep related animations together.
 
+This file has two different scenes. Manim will render each separately when called, allowing you to keep related animations together.
 
 Example 24: Transform Between Shapes
 Description: Morphs one shape into another.
 
 # ### MANIM CODE:
-from manim import *
+
+from manim import \*
 
 class ShapeTransform(Scene):
-    def construct(self):
-        circle = Circle()
-        square = Square()
-        self.play(Create(circle))
-        self.wait(1)
-        self.play(Transform(circle, square))
-        self.wait(1)
+def construct(self):
+circle = Circle()
+square = Square()
+self.play(Create(circle))
+self.wait(1)
+self.play(Transform(circle, square))
+self.wait(1)
 
 # ### NARRATION:
+
 We create a circle, then morph it into a square using the Transform animation. This makes transitions smooth.

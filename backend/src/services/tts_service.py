@@ -31,8 +31,10 @@ class TTSService:
             minutes = int((seconds % 3600) // 60)
             seconds_part = seconds % 60
             milliseconds = int((seconds_part - int(seconds_part)) * 1000)
-            
-            return f"{hours:02d}:{minutes:02d}:{int(seconds_part):02d},{milliseconds:03d}"
+
+            return (
+                f"{hours:02d}:{minutes:02d}:{int(seconds_part):02d},{milliseconds:03d}"
+            )
         except Exception as e:
             logging.error(f"Error formatting timestamp: {e}")
             return "00:00:00,000"
@@ -66,7 +68,9 @@ class TTSService:
 
                         # Reset for next subtitle
                         subtitle_words = []
-                        start_time = None if word.endswith((".", "!", "?")) else word_start
+                        start_time = (
+                            None if word.endswith((".", "!", "?")) else word_start
+                        )
 
                 # Add current word to subtitle
                 subtitle_words.append((word, word_end))
@@ -181,13 +185,12 @@ def generate_audio(text: str, voice: str = "en-us"):
         logging.error(f"Error geneate_audio: {e}")
 
 
-
-if __name__ == "__main__":
-    # Example usage
-    text = """
-Your morning eyes, I could stare like watching stars
-I could walk you by, and I'll tell without a thought
-You'd be mine, would you mind if I took your hand tonight?
-Know you're all that I want this life"""
-    audio_file = generate_audio(text=text)
-    print(f"Generated audio file: {audio_file}")
+# if __name__ == "__main__":
+#     # Example usage
+#     text = """
+# Your morning eyes, I could stare like watching stars
+# I could walk you by, and I'll tell without a thought
+# You'd be mine, would you mind if I took your hand tonight?
+# Know you're all that I want this life"""
+#     audio_file = generate_audio(text=text)
+#     print(f"Generated audio file: {audio_file}")

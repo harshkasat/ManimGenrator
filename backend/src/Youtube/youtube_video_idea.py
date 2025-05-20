@@ -22,5 +22,6 @@ def generate_video_idea(avoid_this_ideas):
     except Exception as e:
         logging.error(f"ERROR when generate metadata content: {e}")
 
+
 # if __name__ == '__main__':
 #     print(generate_idea())

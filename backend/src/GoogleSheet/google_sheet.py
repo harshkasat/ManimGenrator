@@ -4,36 +4,46 @@ from datetime import datetime
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from dotenv import load_dotenv
+
 load_dotenv()
 
 
 class GoogleSheet:
-
     def __init__(self):
         # === Setup Credentials ===
-        scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+        scope = [
+            "https://spreadsheets.google.com/feeds",
+            "https://www.googleapis.com/auth/drive",
+        ]
         creds = ServiceAccountCredentials.from_json_keyfile_name(
-            'src/GoogleSheet/google_cred.json', scope)
+            "src/GoogleSheet/google_cred.json", scope
+        )
         self.client = gspread.authorize(creds)
         # === Open Google Sheet ===
         sheet_id = os.getenv("SHEET_ID")  # Replace with actual ID
         self.sheet = self.client.open_by_key(sheet_id).sheet1
 
     def append_data(
-            self,
-            video_url:str,
-            video_title:str,
-            video_description:str,
-            video_tags:str,
-        ):
-
+        self,
+        video_url: str,
+        video_title: str,
+        video_description: str,
+        video_tags: str,
+    ):
         try:
             # === Open Google Sheet ===
             # sheet_id = os.getenv("SHEET_ID")  # Replace with actual ID
             # sheet = self.client.open_by_key(sheet_id).sheet1
 
             # === Headers (Add if not exist) ===
-            headers = ['Video url', 'Title', 'Description', 'Tags', 'Date created', 'Status']
+            headers = [
+                "Video url",
+                "Title",
+                "Description",
+                "Tags",
+                "Date created",
+                "Status",
+            ]
             if not self.sheet.row_values(1):
                 self.sheet.append_row(headers)
 
@@ -44,7 +54,7 @@ class GoogleSheet:
                 "Description": video_description,
                 "Tags": video_tags,
                 "Date created": datetime.now().strftime("%Y-%m-%d"),
-                "Status": "Pending"
+                "Status": "Pending",
             }
 
             # === Push to Sheet ===

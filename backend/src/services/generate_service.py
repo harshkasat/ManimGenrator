@@ -12,7 +12,8 @@ def generate_video(idea: str | None = None):
     manim_examples = load_manim_examples()
     if manim_examples:
         examples_prompt = (
-            "Below are examples of Manim code that demonstrate proper usage patterns. Use these as reference when generating your animation:\n\n" + manim_examples
+            "Below are examples of Manim code that demonstrate proper usage patterns. Use these as reference when generating your animation:\n\n"
+            + manim_examples
         )
         contents.append(examples_prompt)
         logging.info("Added Manim examples from guide.md to prime the model")

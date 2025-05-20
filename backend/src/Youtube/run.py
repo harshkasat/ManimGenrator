@@ -10,6 +10,7 @@ CLIENT_SECRET_FILE = "src/Youtube/google_client.json"
 
 # TOKEN_FILE = "token.json"
 
+
 def authenticate_youtube():
     creds = None
 
@@ -25,10 +26,12 @@ def authenticate_youtube():
             flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
                 CLIENT_SECRET_FILE, SCOPES
             )
-            creds = flow.run_local_server(prompt='consent')  # Needed to get refresh_token!
+            creds = flow.run_local_server(
+                prompt="consent"
+            )  # Needed to get refresh_token!
 
         # 💾 Save token
-        with open(TOKEN_FILE, 'w') as token:
+        with open(TOKEN_FILE, "w") as token:
             token.write(creds.to_json())
 
     return googleapiclient.discovery.build("youtube", "v3", credentials=creds)
@@ -38,14 +41,14 @@ def upload_video(youtube, metadata, media_file):
     request_body = {
         "snippet": {
             "categoryId": "22",
-            "title": metadata['title'],
-            "description": metadata['description'],
-            "tags": metadata['tags'],
+            "title": metadata["title"],
+            "description": metadata["description"],
+            "tags": metadata["tags"],
         },
         "status": {
             "privacyStatus": "private",
             # "privacyStatus": "public",
-            "madeForKids": False    
+            "madeForKids": False,
         },
     }
 
@@ -66,11 +69,10 @@ def upload_video(youtube, metadata, media_file):
 
         print(f"Video uploaded with ID: {response['id']}")
 
-def push_youtube_video(metadata:dict, media_file:str):
+
+def push_youtube_video(metadata: dict, media_file: str):
     youtube_auth = authenticate_youtube()
-    upload_video(youtube=youtube_auth,
-                metadata=metadata,
-                media_file=media_file)
+    upload_video(youtube=youtube_auth, metadata=metadata, media_file=media_file)
 
 
 # if __name__ == "__main__":

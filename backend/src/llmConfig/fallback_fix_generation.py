@@ -1,11 +1,15 @@
 import os
+import logging
 import re
 from google import genai
 from google.genai import types as genai_types
-import logging
+from src.utils.load_manim import load_manim_examples
 from src.llmConfig import SYSTEM_PROMPT, BASE_PROMPT_INSTRUCTIONS
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 
 def fix_manim_code(faulty_code: str, error_message: str, original_context: str):
     api_key = os.getenv("GENAI_API_KEY")
@@ -14,6 +18,20 @@ def fix_manim_code(faulty_code: str, error_message: str, original_context: str):
         return None, None
 
     client = genai.Client(api_key=api_key)
+
+    manim_examples = load_manim_examples()
+    examples_prompt = ""
+    if manim_examples:
+        examples_prompt = (
+            "Below are examples of Manim code that demonstrate proper usage patterns. Use these as reference when generating your animation:\n\n"
+            + manim_examples
+        )
+        print("What example prompt type: " + type(examples_prompt))
+
+        # contents.append(examples_prompt)
+        logging.info("Added Manim examples from guide.md to prime the model")
+    else:
+        logging.warning("No Manim examples were loaded from guide.md")
 
     fix_prompt_text = (
         f"The following Manim code, intended to '{original_context}', failed with an error.\n\n"
@@ -29,85 +47,121 @@ def fix_manim_code(faulty_code: str, error_message: str, original_context: str):
         "5. If the code logic changes significantly, update the narration accordingly.\n"
         "6. Return *only* the corrected code and narration using the '### MANIM CODE:' and '### NARRATION:' delimiters, just like the original request.\n\n"
         "### REQUIREMENTS (Apply these to the corrected code):\n"
-        f"{BASE_PROMPT_INSTRUCTIONS}" 
+        f"{BASE_PROMPT_INSTRUCTIONS}"
     )
 
-    contents = [fix_prompt_text] 
+    contents = fix_prompt_text
 
     logging.info("Attempting to fix Manim code via fallback...")
     try:
         generation_config = genai_types.GenerateContentConfig(
             system_instruction=SYSTEM_PROMPT
         )
-        
+
         response = client.models.generate_content(
-                model="gemini-2.0-flash-001",
-                contents=contents,
-                config=generation_config
-                )
+            model="gemini-2.0-flash-001",
+            contents=contents + examples_prompt,
+            config=generation_config,
+        )
         if response:
             try:
                 content = response.text
                 logging.info("Received response from fallback attempt.")
-                
+
                 if "### NARRATION:" in content:
                     manim_code, narration = content.split("### NARRATION:", 1)
-                    manim_code = re.sub(r"```python", "", manim_code).replace("```", "").strip()
+                    manim_code = (
+                        re.sub(r"```python", "", manim_code).replace("```", "").strip()
+                    )
                     narration = narration.strip()
 
                     if "from manim import *" not in manim_code:
-                         logging.warning("Adding missing 'from manim import *' (fallback fix).")
-                         manim_code = "from manim import *\nimport numpy as np\n" + manim_code
+                        logging.warning(
+                            "Adding missing 'from manim import *' (fallback fix)."
+                        )
+                        manim_code = (
+                            "from manim import *\nimport numpy as np\n" + manim_code
+                        )
                     elif "import numpy as np" not in manim_code:
-                         logging.warning("Adding missing 'import numpy as np' (fallback fix).")
-                         lines = manim_code.splitlines()
-                         for i, line in enumerate(lines):
-                             if "from manim import *" in line:
-                                 lines.insert(i + 1, "import numpy as np")
-                                 manim_code = "\n".join(lines)
-                                 break
+                        logging.warning(
+                            "Adding missing 'import numpy as np' (fallback fix)."
+                        )
+                        lines = manim_code.splitlines()
+                        for i, line in enumerate(lines):
+                            if "from manim import *" in line:
+                                lines.insert(i + 1, "import numpy as np")
+                                manim_code = "\n".join(lines)
+                                break
 
-                    logging.info("Successfully parsed fixed code and narration from fallback.")
-                    return {"manim_code": manim_code, "output_file": "output.mp4"}, narration
+                    logging.info(
+                        "Successfully parsed fixed code and narration from fallback."
+                    )
+                    return {
+                        "manim_code": manim_code,
+                        "output_file": "output.mp4",
+                    }, narration
                 else:
-                    logging.warning("Delimiter '### NARRATION:' not found in fallback response. Attempting fallback extraction.")
-                    code_match = re.search(r'```python(.*?)```', content, re.DOTALL)
+                    logging.warning(
+                        "Delimiter '### NARRATION:' not found in fallback response. Attempting fallback extraction."
+                    )
+                    code_match = re.search(r"```python(.*?)```", content, re.DOTALL)
                     if code_match:
                         manim_code = code_match.group(1).strip()
-                        narration_part = content.split('```', 2)[-1].strip()
+                        narration_part = content.split("```", 2)[-1].strip()
                         narration = narration_part if len(narration_part) > 20 else ""
                         if not narration:
-                            logging.warning("Fallback narration extraction resulted in empty or very short text (fallback fix).")
+                            logging.warning(
+                                "Fallback narration extraction resulted in empty or very short text (fallback fix)."
+                            )
                         else:
-                            logging.info("Successfully parsed code and narration using fallback regex (fallback fix).")
+                            logging.info(
+                                "Successfully parsed code and narration using fallback regex (fallback fix)."
+                            )
 
                         if "from manim import *" not in manim_code:
-                             logging.warning("Adding missing 'from manim import *' (fallback fix, regex path).")
-                             manim_code = "from manim import *\nimport numpy as np\n" + manim_code
+                            logging.warning(
+                                "Adding missing 'from manim import *' (fallback fix, regex path)."
+                            )
+                            manim_code = (
+                                "from manim import *\nimport numpy as np\n" + manim_code
+                            )
                         elif "import numpy as np" not in manim_code:
-                             logging.warning("Adding missing 'import numpy as np' (fallback fix, regex path).")
-                             lines = manim_code.splitlines()
-                             for i, line in enumerate(lines):
-                                 if "from manim import *" in line:
-                                     lines.insert(i + 1, "import numpy as np")
-                                     manim_code = "\n".join(lines)
-                                     break
+                            logging.warning(
+                                "Adding missing 'import numpy as np' (fallback fix, regex path)."
+                            )
+                            lines = manim_code.splitlines()
+                            for i, line in enumerate(lines):
+                                if "from manim import *" in line:
+                                    lines.insert(i + 1, "import numpy as np")
+                                    manim_code = "\n".join(lines)
+                                    break
 
-                        logging.info("Successfully parsed fixed code using fallback extraction.")
-                        return {"manim_code": manim_code, "output_file": "output.mp4"}, narration
+                        logging.info(
+                            "Successfully parsed fixed code using fallback extraction."
+                        )
+                        return {
+                            "manim_code": manim_code,
+                            "output_file": "output.mp4",
+                        }, narration
                     else:
-                         logging.error("Fallback extraction failed: No Python code block found in fallback response.")
-                         logging.debug(f"Fallback content without code block:\n{content}")
-                         return None, None
+                        logging.error(
+                            "Fallback extraction failed: No Python code block found in fallback response."
+                        )
+                        logging.debug(
+                            f"Fallback content without code block:\n{content}"
+                        )
+                        return None, None
 
             except ValueError:
                 logging.error("Could not extract text from the fallback response.")
                 if response.prompt_feedback and response.prompt_feedback.block_reason:
-                     logging.error(f"Fallback content generation blocked. Reason: {response.prompt_feedback.block_reason.name}")
+                    logging.error(
+                        f"Fallback content generation blocked. Reason: {response.prompt_feedback.block_reason.name}"
+                    )
                 return None, None
             except Exception as e:
-                 logging.exception(f"Error processing fallback response: {e}")
-                 return None, None
+                logging.exception(f"Error processing fallback response: {e}")
+                return None, None
         else:
             logging.error("No response received from Gemini during fallback attempt.")
             return None, None

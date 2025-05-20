@@ -53,7 +53,7 @@ class LLMConfig:
 
         return response
 
-    def general_content(self, idea:str):
+    def general_content(self, idea: str):
         try:
             response = self.client.models.generate_content(
                 model="gemini-2.0-flash-001", contents=idea

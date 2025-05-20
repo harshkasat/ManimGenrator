@@ -1,28 +1,56 @@
 1
-00:00:00,275 --> 00:00:02,450
-We begin with a grid of numbers starting
+00:00:00,275 --> 00:00:02,987
+The Gaussian blur a seemingly complex effect is
 
 2
-00:00:02,450 --> 00:00:05,599
-from 2 Now circles will grow to eliminate
+00:00:02,987 --> 00:00:06,812
+actually quite simple It's all about averaging imagine
 
 3
-00:00:05,599 --> 00:00:08,875
-multiples of each prime number Watch as the
+00:00:06,812 --> 00:00:08,987
+you have an image represented by a grid
 
 4
-00:00:08,875 --> 00:00:11,525
-multiples are crossed out one by one The
+00:00:08,987 --> 00:00:12,074
+of pixels Each pixel has a value and
 
 5
-00:00:11,525 --> 00:00:14,200
-remaining numbers are the prime numbers less than
+00:00:12,074 --> 00:00:15,149
+blurring involves averaging the value of each pixel
 
 6
-00:00:14,200 --> 00:00:17,262
-100 These are the prime numbers revealed by
+00:00:15,149 --> 00:00:18,524
+with its neighbors Let's focus on one pixel
 
 7
-00:00:17,262 --> 00:00:18,000
-the sieve
+00:00:18,524 --> 00:00:21,412
+and its immediate neighbors The new value of
+
+8
+00:00:21,412 --> 00:00:24,399
+this pixel is calculated by taking the average
+
+9
+00:00:24,399 --> 00:00:26,587
+of its current value and the values of
+
+10
+00:00:26,587 --> 00:00:30,287
+its neighbors This averaging process is applied to
+
+11
+00:00:30,287 --> 00:00:33,537
+all pixels in the image Repeatedly applying this
+
+12
+00:00:33,537 --> 00:00:37,600
+averaging process smooths out sharp transitions and reduces
+
+13
+00:00:37,600 --> 00:00:40,312
+noise That's how a Gaussian blur works a
+
+14
+00:00:40,312 --> 00:00:43,024
+simple yet powerful averaging technique
 

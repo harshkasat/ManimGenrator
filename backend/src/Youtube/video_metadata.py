@@ -23,7 +23,7 @@ def extract_clean_json(raw_text):
     try:
         # remove ```json and ``` if present
         raw_text = raw_text.strip()
-        cleaned = re.search(r'\{.*\}', raw_text, re.DOTALL)
+        cleaned = re.search(r"\{.*\}", raw_text, re.DOTALL)
         if not cleaned:
             logging.error("No valid JSON found in the input.")
             return None
@@ -58,7 +58,6 @@ def validate_youtube_response(response: dict) -> bool:
 
 
 def generate_metadata_content(title: str):
-
     try:
         llm = LLMConfig()
         prompt = PROMPT.format(concept=title)
@@ -67,6 +66,7 @@ def generate_metadata_content(title: str):
         return resposne.text
     except Exception as e:
         logging.error(f"ERROR when generate metadata content: {e}")
+
 
 def generate_youtube_metadata(idea, retry=3):
     if retry == 0:
@@ -86,6 +86,7 @@ def generate_youtube_metadata(idea, retry=3):
         return response
     else:
         return generate_youtube_metadata(idea, retry=retry - 1)
+
 
 # if __name__ == '__main__':
 #     title = "Patterns in Multiplication: Show patterns that emerge when multiplying " \

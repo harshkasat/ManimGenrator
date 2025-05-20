@@ -40,7 +40,7 @@ class SRTTOASSConverter:
 
     [V4+ Styles]
     Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-    Style: Default,Gibson,60,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,2,3,2,50,50,120,1  # Gibson font, bottom-aligned
+    Style: Default,Gibson,60,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,2,3,2,50,50,100,1  # Gibson font, bottom-aligned
     Style: TopTitle,Gibson,72,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,3,3,8,50,50,100,1  # Gibson for titles (top)
 
     [Events]

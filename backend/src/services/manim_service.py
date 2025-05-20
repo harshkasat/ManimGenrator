@@ -13,7 +13,6 @@ def get_scene_name(manim_code):
 
 
 def create_manim_video(video_data, manim_code, audio_file=None):
-
     try:
         logging.info("Starting to create Manim video")
         custom_output = "output/video"
@@ -29,9 +28,7 @@ def create_manim_video(video_data, manim_code, audio_file=None):
         logging.info(f"Running Manim with command: {' '.join(command)}")
         subprocess.run(command, check=True)
 
-        search_pattern = os.path.join(
-            "output", "video", f"{scene_name}.mp4"
-        )
+        search_pattern = os.path.join("output", "video", f"{scene_name}.mp4")
         if not os.path.exists(search_pattern):
             logging.error(f"No rendered video found at: {search_pattern}")
             raise Exception(f"No rendered video found for scene {scene_name}")
@@ -130,12 +127,15 @@ def create_manim_video(video_data, manim_code, audio_file=None):
             crop_cmd = [
                 "ffmpeg",
                 "-y",
-                "-i", output_video,
-                "-filter:v", "crop=ih*9/16:ih",
-                "-c:a", "copy",
-                "-vf", "subtitles=output/subtitles/subtitles.ass",
-                portrait_video
+                "-i",
+                output_video,
+                "-vf",
+                "crop=ih*9/16:ih:(iw - ih*9/16)/2:0,subtitles=output/subtitles/subtitles.ass",
+                "-c:a",
+                "copy",
+                portrait_video,
             ]
+
             logging.info(f"Cropping to 9:16 with command: {' '.join(crop_cmd)}")
             subprocess.run(crop_cmd, check=True)
             output_video = portrait_video
@@ -145,7 +145,6 @@ def create_manim_video(video_data, manim_code, audio_file=None):
             #     os.remove("extended_video.mp4")
             #     os.remove("final_output.mp4")
             #     logging.info("Removed temporary extended video file")
-
 
         logging.info(f"Final video created at: {output_video}")
         return output_video
