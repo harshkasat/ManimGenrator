@@ -8,7 +8,8 @@ from src.GoogleSheet.google_sheet import GoogleSheet
 def _create_video():
     try:
         # Get All ideas title to avoid
-        avoid_ideas = GoogleSheet().get_all_title()
+        gsheet = GoogleSheet()
+        avoid_ideas = gsheet.get_all_title()
         # Using Gemini create video idea / script
         youtube_video_idea = generate_video_idea(avoid_this_ideas=avoid_ideas)
         logging.info("YOUTUBE video idea is created")
@@ -24,16 +25,16 @@ def _create_video():
             logging.info("YOUTUBE video metadata is created")
 
             # After downloading file we want to push the google sheet
-            GoogleSheet().append_data(
+            gsheet.append_data(
                 video_url=video_file_url,
-                video_title=video_metadata["title"],
-                video_description=video_metadata["description"],
-                video_tags=video_metadata["tags"],
+                video_title=video_metadata.get("title"),
+                video_description=video_metadata.get("description"),
+                video_tags=video_metadata.get("tags"),
             )
             logging.info("Google Sheet data is upload.")
 
     except Exception as e:
-        logging.error(f"ERROR when running _create_video: {e}")
+        logging.error(f"ERROR when running _create_video: {type(e).__name__}: {e}")
 
 
 if __name__ == "__main__":
