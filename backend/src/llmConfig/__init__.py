@@ -27,10 +27,6 @@ BASE_PROMPT_INSTRUCTIONS = (
     "\n   - Format: r'\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}'"
     "\n 5. Use this alway in to setup file when writing code \n "
     "\n # Set custom config"
-    """ config.video_dir = "output/video config.write_to_movie = True config.flush_cache = True config.disable_caching = True config.pixel_width = 1080
-        config.pixel_height = 1920
-        config.frame_width = 9
-        config.frame_height = 16 This part is important to set the video directory to output/video"""
     "\n4. Use only verified Manim methods:"
     "\n   - self.play(), self.wait(), Create(), Write(), Transform(), FadeIn(), FadeOut(), Add(), Remove(), MoveAlongPath(), Rotating(), Circumscribe(), Indicate(), FocusOn(), Shift(), Scale(), MoveTo(), NextTo(), Axes(), Plot(), LineGraph(), BarChart(), Dot(), Line(), Arrow(), Text(), Tex(), MathTex(), VGroup(), Mobject.animate, self.camera.frame.animate"
     "\n5. DO NOT USE IMAGES IMPORTS."
