@@ -1,14 +1,13 @@
-import os
-import tempfile
-import subprocess
 import logging
-from src.services.generate_service import generate_video
+import os
+import shutil
+import subprocess
+
+from src.CloudStorage.utils import CloudinaryStorage
 from src.llmConfig.fallback_fix_generation import fix_manim_code
+from src.services.generate_service import generate_video
 from src.services.manim_service import create_manim_video
 from src.services.tts_service import generate_audio
-import shutil
-from src.CloudStorage.utils import CloudinaryStorage
-
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -93,7 +92,7 @@ def main(idea: str) -> str:
             else:
                 logging.error(f"Manim failed after {max_retries + 1} attempts.")
                 final_video = None
-        except Exception as e:
+        except Exception:
             logging.exception("Unexpected error during create_manim_video call.")
             final_video = None
             break

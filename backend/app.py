@@ -32,6 +32,7 @@ def _create_video():
                 video_tags=video_metadata.get("tags"),
             )
             logging.info("Google Sheet data is upload.")
+            logging.info(f"Video Title: {video_metadata.get('title')}")
 
     except Exception as e:
         logging.error(f"ERROR when running _create_video: {type(e).__name__}: {e}")
